@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Logit School — US Trucking Dispatcher</title>
+<meta name="description" content="Профессия US Trucking Dispatcher с нуля в Logit School.">
+<meta name="theme-color" content="#0307E5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap" rel="stylesheet">
+<style>
+/* ---------- Токены бренда Logit ---------- */
+:root{
+  --blue:#0307E5;  --lime:#C8F64F;  --black:#000;  --white:#fff;
+  --lavender:#E5E5FC; --stack1:#9798F3; --stack2:#4F51EC;
+  --wm-white:#F5F5FD; --wm-blue:#202ACE; --lime-mid:#E3FAA6;
+  --pad: clamp(16px, 5.2vw, 100px);           /* поля 100px на 1920 */
+  --r-card:40px; --r-sm:24px; --r-pill:999px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--white)}
+body{
+  font-family:Inter, "SF Pro Display", Arial, sans-serif;
+  color:var(--black); background:var(--white);
+  letter-spacing:-0.02em; overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+
+/* ---------- Lenis: обязательные стили (из документации) ---------- */
+html.lenis, html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto !important}
+
+/* ---------- Прогресс-бар чтения (ШАГ 2) ---------- */
+.progress{position:fixed;inset:0 0 auto 0;height:4px;background:var(--lime);
+  transform-origin:0 50%;transform:scaleX(0);z-index:100}
+
+/* ---------- Шапка ---------- */
+.header{position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px var(--pad);color:var(--white);mix-blend-mode:difference}
+/* Текстовый логотип-заглушка. В проде вставьте официальный PNG/SVG логотипа */
+.logo{display:flex;flex-direction:column;line-height:.9}
+.logo b{font-weight:900;font-size:22px;letter-spacing:.02em}
+.logo span{font-weight:500;font-size:13px;letter-spacing:.18em}
+.header a.small{font-weight:600;font-size:15px}
+
+/* ---------- ШАГ 3. Hero ---------- */
+.hero{position:relative;min-height:100svh;background:var(--blue);color:var(--white);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:120px var(--pad) 64px;overflow:hidden}
+.watermark{position:absolute;right:-6vw;bottom:-12vw;font-weight:600;
+  font-size:52vw;line-height:.8;letter-spacing:-.06em;pointer-events:none;user-select:none}
+.hero .watermark{color:var(--wm-blue)}
+.hero h1{position:relative;font-weight:700;font-size:clamp(48px,9.5vw,150px);
+  line-height:.92;letter-spacing:-.04em;max-width:14ch}
+/* Маска для «выезда» строк: строка прячется за overflow:hidden */
+.line{display:block;overflow:hidden;padding-bottom:.06em}
+.line > span{display:inline-block;will-change:transform}
+.hero h1 em{font-style:normal;color:var(--lime)}
+.hero-bottom{position:relative;display:flex;flex-wrap:wrap;gap:24px;
+  justify-content:space-between;align-items:flex-end;margin-top:48px}
+.lead{font-size:clamp(18px,1.9vw,30px);line-height:1.25;max-width:32ch}
+
+.pill{display:inline-flex;align-items:center;gap:12px;height:64px;padding:0 32px;
+  border-radius:var(--r-pill);background:var(--lime);color:var(--black);
+  font-weight:700;font-size:20px;white-space:nowrap;will-change:transform}
+.pill svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- ШАГ 4. Бегущая строка ---------- */
+.marquee{background:var(--lime);overflow:hidden;padding:22px 0;white-space:nowrap}
+.marquee-track{display:inline-flex;gap:48px;will-change:transform}
+.marquee-track span{font-weight:700;font-size:clamp(22px,3vw,44px);text-transform:uppercase}
+.marquee-track i{font-style:normal;color:var(--blue)}
+
+/* ---------- Общие секции ---------- */
+section.block{position:relative;padding:clamp(72px,10vw,160px) var(--pad);overflow:hidden}
+.label{display:inline-block;padding:10px 20px;border-radius:var(--r-pill);
+  background:var(--lavender);color:var(--blue);font-weight:600;font-size:14px;
+  text-transform:uppercase;letter-spacing:.04em;margin-bottom:24px}
+h2{font-weight:700;color:var(--blue);font-size:clamp(36px,6vw,108px);
+  line-height:.95;letter-spacing:-.035em;max-width:16ch}
+section.block .watermark{color:var(--wm-white);z-index:-1}
+
+/* ---------- ШАГ 5. Карточки 2×2 ---------- */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;margin-top:56px}
+.card{border-radius:var(--r-card);padding:clamp(28px,3vw,48px);min-height:280px;
+  display:flex;flex-direction:column;justify-content:space-between}
+.card:nth-child(1),.card:nth-child(4){background:var(--lime)}
+.card:nth-child(2),.card:nth-child(3){background:var(--blue);color:var(--white)}
+.card .num{font-size:clamp(56px,6vw,110px);font-weight:500;line-height:1}
+.card h3{font-size:clamp(22px,2.4vw,40px);font-weight:700;line-height:1.05;margin-top:24px}
+.card p{font-size:18px;line-height:1.3;margin-top:12px;max-width:34ch}
+
+/* ---------- ШАГ 6. Горизонтальный скролл ---------- */
+.hscroll{background:var(--blue);color:var(--white);overflow:hidden}
+.hscroll-inner{display:flex;align-items:center;gap:32px;height:100svh;
+  padding:0 var(--pad);width:max-content}
+.hscroll-title{flex:0 0 auto;width:min(80vw,640px)}
+.hscroll-title h2{color:var(--white)}
+.step{flex:0 0 auto;width:min(80vw,520px);height:min(62svh,520px);border-radius:var(--r-card);
+  background:var(--white);color:var(--black);padding:40px;display:flex;flex-direction:column;
+  justify-content:space-between}
+.step:nth-child(odd){background:var(--lime)}
+.step .num{font-size:96px;font-weight:500;line-height:1;color:var(--blue)}
+.step h3{font-size:clamp(26px,2.6vw,44px);line-height:1.02;font-weight:700}
+.step p{font-size:18px;line-height:1.3;margin-top:12px}
+
+/* ---------- ШАГ 7. Текст, «закрашиваемый» скроллом ---------- */
+.reveal-text{font-size:clamp(28px,4.4vw,72px);font-weight:700;line-height:1.08;
+  letter-spacing:-.03em;max-width:22ch}
+.reveal-text .w{color:var(--lavender)}   /* стартовый цвет слов */
+.reveal-text b{font-weight:700}
+
+/* ---------- ШАГ 8. «Стопка» (компонент брендбука) ---------- */
+.stack-wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-top:56px}
+.stack{position:relative;height:460px}
+.stack > div{position:absolute;left:0;right:0;border-radius:var(--r-card);padding:36px}
+.s-problem{top:0;height:200px;background:var(--lime);z-index:4}
+.s-l1{top:40px;height:200px;background:var(--stack1);z-index:3}
+.s-l2{top:80px;height:200px;background:var(--stack2);z-index:2}
+.s-solution{top:240px;height:220px;background:var(--blue);color:var(--white);z-index:1}
+.stack small{font-weight:600;text-transform:uppercase;font-size:14px;letter-spacing:.06em}
+.stack p{font-size:clamp(20px,2vw,30px);font-weight:700;line-height:1.1;margin-top:12px}
+.stack-copy p{font-size:clamp(18px,1.8vw,28px);line-height:1.3;max-width:30ch}
+
+/* ---------- ШАГ 9. Финальный CTA ---------- */
+.cta{background:var(--blue);color:var(--white);text-align:left;min-height:90svh;
+  display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+.cta h2{color:var(--white)}
+.cta .watermark{color:var(--wm-blue);z-index:0}
+.cta > *{position:relative}
+.cta .pill{margin-top:48px;height:84px;padding:0 48px;font-size:24px}
+.summary{display:flex;align-items:center;gap:14px;margin-top:40px;padding:18px 28px;
+  border-radius:var(--r-pill);background:var(--lime);color:var(--black);
+  font-weight:600;font-size:18px;max-width:max-content}
+
+footer{padding:32px var(--pad);font-size:14px;background:var(--white)}
+
+/* ---------- Мобильная версия ---------- */
+@media (max-width:760px){
+  .grid,.stack-wrap{grid-template-columns:1fr}
+  .stack{height:420px}
+  .pill{height:56px;padding:0 24px;font-size:17px}
+  .cta .pill{height:64px;padding:0 28px;font-size:18px}
+}
+</style>
+</head>
+<body><!-- ============================================================
+  УЧЕБНЫЙ МОУШН-ЛЕНДИНГ: GSAP + ScrollTrigger + Lenis
+  ------------------------------------------------------------
+  Как читать файл: CSS и JS разбиты на шаги «ШАГ 1…ШАГ 9».
+  Каждый шаг — отдельный приём анимации. Закомментируйте
+  шаг и обновите страницу, чтобы увидеть разницу.
+
+  Тексты в [КВАДРАТНЫХ СКОБКАХ] — плейсхолдеры. Их нужно
+  заменить утверждёнными фактами (цены, сроки, цифры).
+============================================================ -->
+
+
+
+
+
+
+
+
+<div class="progress" aria-hidden="true"></div>
+
+<header class="header">
+  <a href="#" class="logo" aria-label="Logit School"><b>LOGIT</b><span>SCHOOL</span></a>
+  <a href="#cta" class="small">Записаться →</a>
+</header>
+
+<main>
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="watermark" data-speed="0.3" aria-hidden="true">Logit</div>
+    <h1 class="split-lines">
+      <span class="line"><span>Станьте</span></span>
+      <span class="line"><span><em>US Trucking</em></span></span>
+      <span class="line"><span>Dispatcher</span></span>
+    </h1>
+    <div class="hero-bottom">
+      <p class="lead fade-up">Работа с американскими грузоперевозками — из дома, на английском, в долларах. Срок обучения — [СРОК].</p>
+      <a href="#cta" class="pill magnetic fade-up">
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        Пробный урок
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== БЕГУЩАЯ СТРОКА ===== -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>DAT One <i>●</i></span><span>Rate Confirmation <i>●</i></span>
+      <span>TONU <i>●</i></span><span>Broker <i>●</i></span><span>Load Board <i>●</i></span>
+      <!-- дубль для бесшовной прокрутки -->
+      <span>DAT One <i>●</i></span><span>Rate Confirmation <i>●</i></span>
+      <span>TONU <i>●</i></span><span>Broker <i>●</i></span><span>Load Board <i>●</i></span>
+    </div>
+  </div>
+
+  <!-- ===== КАРТОЧКИ 2×2 ===== -->
+  <section class="block">
+    <div class="watermark" data-speed="-0.2" aria-hidden="true">Logit</div>
+    <span class="label reveal">Что вы получите</span>
+    <h2 class="reveal">Профессия с нуля — за [СРОК]</h2>
+    <div class="grid">
+      <article class="card"><span class="num">01</span><div><h3>Теория отрасли</h3><p>Как устроены грузоперевозки в США — роли, документы, термины.</p></div></article>
+      <article class="card"><span class="num">02</span><div><h3>Практика на Load Board</h3><p>Поиск грузов в DAT One и работа с Rate Confirmation.</p></div></article>
+      <article class="card"><span class="num">03</span><div><h3>Переговоры с брокерами</h3><p>Скрипты и разбор звонков на английском.</p></div></article>
+      <article class="card"><span class="num">04</span><div><h3>[РЕЗУЛЬТАТ КУРСА]</h3><p>[Утверждённая формулировка — без гарантий трудоустройства]</p></div></article>
+    </div>
+  </section>
+
+  <!-- ===== ГОРИЗОНТАЛЬНЫЙ СКРОЛЛ ===== -->
+  <section class="hscroll">
+    <div class="hscroll-inner">
+      <div class="hscroll-title">
+        <span class="label">Путь студента</span>
+        <h2>4 шага от заявки до первой практики</h2>
+      </div>
+      <div class="step"><span class="num">01</span><div><h3>Пробный урок</h3><p>Знакомство с профессией и преподавателем.</p></div></div>
+      <div class="step"><span class="num">02</span><div><h3>Обучение</h3><p>Онлайн-занятия, домашние задания, обратная связь.</p></div></div>
+      <div class="step"><span class="num">03</span><div><h3>Практика</h3><p>Реальные кейсы на Load Board.</p></div></div>
+      <div class="step"><span class="num">04</span><div><h3>Финальный проект</h3><p>[Формат итоговой аттестации]</p></div></div>
+    </div>
+  </section>
+
+  <!-- ===== ТЕКСТ, ЗАКРАШИВАЕМЫЙ СКРОЛЛОМ ===== -->
+  <section class="block">
+    <p class="reveal-text split-words">
+      Диспетчер — это человек, который находит груз, договаривается о цене и ведёт рейс от погрузки до доставки.
+    </p>
+  </section>
+
+  <!-- ===== СТОПКА ===== -->
+  <section class="block" style="background:var(--white)">
+    <span class="label reveal">Проблема → решение</span>
+    <h2 class="reveal">Почему с нами быстрее?</h2>
+    <div class="stack-wrap">
+      <div class="stack">
+        <div class="s-problem"><small>Проблема</small><p>Непонятно, с чего начать в логистике США</p></div>
+        <div class="s-l1"></div>
+        <div class="s-l2"></div>
+        <div class="s-solution"><small>Решение</small><p>Пошаговая программа и практика с первой недели</p></div>
+      </div>
+      <div class="stack-copy">
+        <p class="reveal">Каждый модуль заканчивается практикой. Вы не просто слушаете — <b>вы делаете</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="block cta" id="cta">
+    <div class="watermark" data-speed="0.25" aria-hidden="true">Logit</div>
+    <span class="label reveal" style="background:var(--lime);color:var(--black)">Старт потока — [ДАТА]</span>
+    <h2 class="reveal">Готовы попробовать?</h2>
+    <a href="#" class="pill magnetic reveal">
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      Записаться на пробный урок
+    </a>
+    <div class="summary reveal">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      Стоимость — [ЦЕНА]. Пробный урок — [УСЛОВИЯ].
+    </div>
+  </section>
+</main>
+
+<footer>© Logit School · учебный пример моушн-лендинга</footer>
+
+<!-- ============================================================
+  БИБЛИОТЕКИ (фиксированные версии — так сайт не сломается
+  после обновления CDN)
+============================================================ -->
+<script src="gsap.min.js"></script>
+<script src="ScrollTrigger.min.js"></script>
+<script src="lenis.min.js"></script>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ============================================================
+   ШАГ 1. ПЛАВНЫЙ СКРОЛЛ (Lenis) + синхронизация со ScrollTrigger
+   Lenis «сглаживает» колесо мыши. Чтобы ScrollTrigger знал
+   актуальную позицию, обновляем его на каждом кадре Lenis,
+   а сам Lenis крутим от тикера GSAP — один общий цикл анимации.
+============================================================ */
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let lenis = null;
+if (!reduceMotion) {
+  lenis = new Lenis({ duration: 1.1 });               // больше = «тяжелее» скролл
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add((time) => lenis.raf(time * 1000));  // GSAP даёт секунды, Lenis ждёт мс
+  gsap.ticker.lagSmoothing(0);
+
+  // Якорные ссылки (#cta) тоже скроллим через Lenis
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      if (id.length > 1) { e.preventDefault(); lenis.scrollTo(id); }
+    });
+  });
+}
+
+/* ============================================================
+   ШАГ 2. ПРОГРЕСС-БАР
+   scrub: true — анимация «привязана» к скроллу, а не ко времени.
+============================================================ */
+gsap.to('.progress', {
+  scaleX: 1, ease: 'none',
+  scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: true }
+});
+
+/* ============================================================
+   gsap.matchMedia — запускаем «тяжёлую» анимацию только если
+   пользователь НЕ отключил анимации в системе. Это доступность.
+============================================================ */
+const mm = gsap.matchMedia();
+
+mm.add('(prefers-reduced-motion: no-preference)', () => {
+
+  /* ==========================================================
+     ШАГ 3. HERO: строки «выезжают» снизу из-под маски
+     Таймлайн (timeline) = последовательность анимаций.
+     Параметр "-=0.4" — начать раньше, чем закончится предыдущая.
+  ========================================================== */
+  const intro = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1.1 } });
+  intro
+    .from('.hero .line > span', { yPercent: 110, stagger: 0.12 })   // stagger — задержка между строками
+    .from('.hero .fade-up',     { y: 30, opacity: 0, stagger: 0.1, duration: 0.8 }, '-=0.5')
+    .from('.header',            { y: -40, opacity: 0, duration: 0.8 }, '-=0.8');
+
+  // Параллакс водяного знака: двигается медленнее/быстрее скролла
+  gsap.utils.toArray('[data-speed]').forEach(el => {
+    const speed = parseFloat(el.dataset.speed);
+    gsap.to(el, {
+      yPercent: -100 * speed, ease: 'none',
+      scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+  });
+
+  /* ==========================================================
+     ШАГ 4. БЕГУЩАЯ СТРОКА, которая ускоряется от скорости скролла
+     Бесконечный tween на -50% (контент продублирован) +
+     timeScale меняется в зависимости от скорости прокрутки.
+  ========================================================== */
+  const marquee = gsap.to('.marquee-track', { xPercent: -50, ease: 'none', duration: 18, repeat: -1 });
+  ScrollTrigger.create({
+    onUpdate: (self) => {
+      const v = self.getVelocity() / 300;                       // скорость скролла
+      const dir = self.direction;                               // 1 вниз, -1 вверх
+      gsap.to(marquee, { timeScale: dir * (1 + Math.abs(v)), duration: 0.2, overwrite: true });
+      gsap.to(marquee, { timeScale: dir, duration: 1, delay: 0.2 }); // плавный возврат
+    }
+  });
+
+  /* ==========================================================
+     ШАГ 5. ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ
+     ScrollTrigger.batch собирает элементы, которые вошли в экран
+     одновременно, и анимирует их «волной» (stagger).
+  ========================================================== */
+  gsap.set('.reveal, .card', { y: 60, opacity: 0 });
+  ScrollTrigger.batch('.reveal, .card', {
+    start: 'top 88%',               // «верх элемента» дошёл до 88% высоты экрана
+    onEnter: batch => gsap.to(batch, { y: 0, opacity: 1, stagger: 0.12, duration: 0.9, ease: 'power3.out' }),
+    once: true
+  });
+
+  /* ==========================================================
+     ШАГ 6. ГОРИЗОНТАЛЬНЫЙ СКРОЛЛ с «прилипанием» (pin)
+     Секция фиксируется, а вертикальный скролл двигает ленту вбок.
+     Длина пина = ширина ленты минус ширина экрана.
+  ========================================================== */
+  const track = document.querySelector('.hscroll-inner');
+  const getDistance = () => track.scrollWidth - window.innerWidth;
+  gsap.to(track, {
+    x: () => -getDistance(), ease: 'none',
+    scrollTrigger: {
+      trigger: '.hscroll', pin: true, scrub: 1,     // scrub: 1 — с лёгкой инерцией
+      end: () => '+=' + getDistance(),
+      invalidateOnRefresh: true                     // пересчёт при ресайзе окна
+    }
+  });
+
+  /* ==========================================================
+     ШАГ 7. ТЕКСТ «ЗАКРАШИВАЕТСЯ» ПО СЛОВАМ
+     Разбиваем абзац на <span> по словам вручную (в GSAP есть
+     плагин SplitText, но так нагляднее видно, как это работает),
+     затем меняем цвет каждого слова по мере скролла.
+  ========================================================== */
+  document.querySelectorAll('.split-words').forEach(p => {
+    p.innerHTML = p.textContent.trim().split(/\s+/)
+      .map(w => `<span class="w">${w}</span>`).join(' ');
+    gsap.to(p.querySelectorAll('.w'), {
+      color: '#000', stagger: 0.1, ease: 'none',
+      scrollTrigger: { trigger: p, start: 'top 80%', end: 'bottom 40%', scrub: true }
+    });
+  });
+
+  /* ==========================================================
+     ШАГ 8. «СТОПКА» собирается при скролле
+     Слои стартуют сдвинутыми и прозрачными, затем «садятся» на место.
+  ========================================================== */
+  gsap.timeline({
+    scrollTrigger: { trigger: '.stack', start: 'top 80%', end: 'center 45%', scrub: 1 }
+  })
+    .from('.s-solution', { y: 120, opacity: 0 })
+    .from('.s-l2',       { y: 80,  opacity: 0 }, '<0.15')
+    .from('.s-l1',       { y: 40,  opacity: 0 }, '<0.15')
+    .from('.s-problem',  { y: -40, opacity: 0 }, '<0.15');
+
+  /* ==========================================================
+     ШАГ 9. МАГНИТНЫЕ КНОПКИ (микро-взаимодействие)
+     Кнопка тянется за курсором. quickTo — оптимизированный
+     способ часто обновлять одно свойство (без создания новых tween).
+     Только для устройств с мышью.
+  ========================================================== */
+  if (window.matchMedia('(hover: hover)').matches) {
+    document.querySelectorAll('.magnetic').forEach(btn => {
+      const xTo = gsap.quickTo(btn, 'x', { duration: 0.5, ease: 'power3.out' });
+      const yTo = gsap.quickTo(btn, 'y', { duration: 0.5, ease: 'power3.out' });
+      btn.addEventListener('mousemove', e => {
+        const r = btn.getBoundingClientRect();
+        xTo((e.clientX - r.left - r.width / 2) * 0.35);
+        yTo((e.clientY - r.top - r.height / 2) * 0.35);
+      });
+      btn.addEventListener('mouseleave', () => { xTo(0); yTo(0); });
+    });
+  }
+});
+
+// После загрузки шрифтов размеры текста меняются — пересчитываем триггеры
+document.fonts.ready.then(() => ScrollTrigger.refresh());
+</script>
+</body>
+</html>
